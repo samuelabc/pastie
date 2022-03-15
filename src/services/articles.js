@@ -1,6 +1,12 @@
 import axios from 'axios'
 const baseUrl = '/article'
 
+let globalConfig = {
+    headers: {
+       'Content-Type': 'application/x-www-form-urlencoded',
+    } 
+}
+
 async function getToken() {
     var token = `bearer ` + window.localStorage.getItem('token')
     return token
@@ -9,6 +15,7 @@ const getArticle = async (tupleObj) => {
     const token = await getToken()
     console.log('getschedule gettoken', token)
     const config = {
+        ...globalConfig,
         headers: { Authorization: token },
         data: tupleObj
     }
@@ -21,16 +28,31 @@ const createArticle = async (tupleObj) => {
     const token = await getToken()
     console.log('getschedule gettoken', token)
     const config = {
+        ...globalConfig,
         headers: { Authorization: token },
     }
     // const username = window.localStorage.getItem('username')
     const response = await axios.post(`${baseUrl}/create`, tupleObj, config)
     return response.data
 }
+const listArticle = async (tupleObj) => {
+    const token = await getToken()
+    console.log('getschedule gettoken', token)
+    const config = {
+        ...globalConfig,
+        headers: { Authorization: token },
+    }
+    // const username = window.localStorage.getItem('username')
+    console.log('tupleObj',tupleObj)
+    const response = await axios.post(`${baseUrl}/list`, tupleObj, config)
+    console.log('response',response)
+    return response.data
+}
 const editArticle = async (tupleObj) => {
     const token = await getToken()
     console.log('getschedule gettoken', token)
     const config = {
+        ...globalConfig,
         headers: { Authorization: token },
     }
     const username = window.localStorage.getItem('username')
@@ -45,6 +67,7 @@ const deleteArticle = async (tupleObj) => {
     const token = await getToken()
     console.log('getschedule gettoken', token)
     const config = {
+        ...globalConfig,
         headers: { Authorization: token },
         data: tupleObj
     }
@@ -67,6 +90,7 @@ const deleteArticle = async (tupleObj) => {
 export default {
     getArticle,
     createArticle,
+    listArticle,
     editArticle,
     deleteArticle,
     // setToken

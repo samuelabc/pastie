@@ -1,82 +1,59 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, LongButton } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Button, Checkbox, Table, Tag, Space } from 'antd';
 import articleService from '../services/articles';
+const { Column, ColumnGroup } = Table;
 
-const ListArticleForm = (props) => {
-	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
+const ListArticlePage = (props) => {
+	const [directory, setDirectory] = useState('');
 
-	const handleCreateArticle = async (tupleObj) => {
+	useEffect(() => {
+		handleListArticle({})
+	}, [])
+	const handleListArticle = async (tupleObj) => {
 		try {
-			let retObj = await articleService.createArticle(tupleObj);
+			let retObj = await articleService.listArticle(tupleObj);
 			console.log('retObj', retObj)
-			setTitle('')
-			setContent('')
+			setDirectory(retObj)
 		}
 		catch (err) {
-			console.log('create article failed:', err);
+			console.log('get article list failed:', err);
 		}
 	}
 
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
-	};
-
 	return (
-		<Form
-			name="basic"
-			initialValues={{
-				remember: true,
-			}}
-			onFinish={handleCreateArticle}
-			onFinishFailed={onFinishFailed}
-			autoComplete="off"
-		>
-			<Form.Item
-				label="Title"
-				name="title"
-				rules={[
-					{
-						required: true,
-						message: 'Please input your title!',
-					},
-				]}
-			>
-				<Input
-					style={{ width: "80%" }}
-					value={title}
-					onChange={({ target }) => setTitle(target.value)}
-				// showCount
-				/>
-			</Form.Item>
-
-			<Form.Item
-				label="Content"
-				name="content"
-				rules={[
-					{
-						required: true,
-						message: 'Please input your content!',
-					},
-				]}
-			>
-				<Input.TextArea
-					style={{ width: "80%" }}
-					autoSize={{ minRows: 30 }}
-					value={content}
-					onChange={({ target }) => setContent(target.value)}
-				// showCount
-				/>
-			</Form.Item>
-
-			<Form.Item
-
-			>
-				<Button htmlType={"submit"} type={"primary"}>
-					Submit
-				</Button>
-			</Form.Item>
-		</Form>
-	);
+		<Table dataSource={directory} rowKey="id"  >
+			<Column title="Title" dataIndex="title" key="title"
+				render={(text) => (
+						<a>{text}</a>
+				)}
+			/>
+			<Column title="Created At" dataIndex="created_at" key="created_at" />
+			<Column title="Last Modified" dataIndex="updated_at" key="updated_at" />
+			{/* <Column
+				title="Tags"
+				dataIndex="tags"
+				key="tags"
+				render={tags => (
+					<>
+						{tags.map(tag => (
+							<Tag color="blue" key={tag}>
+								{tag}
+							</Tag>
+						))}
+					</>
+				)}
+			/> */}
+			{/* <Column
+				title="Action"
+				key="action"
+				render={(text, record) => (
+					<Space size="middle">
+						<a>Edit</a>
+						<a>Delete</a>
+					</Space>
+				)}
+			/> */}
+		</Table>
+	)
 }
-export default ListArticleForm;
+export default ListArticlePage;

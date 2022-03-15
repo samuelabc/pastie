@@ -1,15 +1,31 @@
 import logo from './pastie.png';
 import './App.css';
+import { Routes, Route, Link } from "react-router-dom";
+
 import CreateArticleForm from './components/CreateArticleForm'
+import ListArticlePage from './components/ListArticlePage'
+import NavigationBar from './components/NavigationBar'
+
 function App() {
   return (
     <div className="App">
-      <img src={logo} className="logo" alt="logo"
-        width={40}
-        height={40} />
+      <Link to="/">
+        <img src={logo} className="logo" alt="logo"
+          width={50}
+          height={50}
+        />
+      </Link>
+
       <h1>Pastie</h1>
-      <CreateArticleForm />
+      <NavigationBar />
+			<br />
+
+      <Routes>
+        <Route path="/" element={<CreateArticleForm />} />
+        <Route path="archives" element={<ListArticlePage />} />
+      </Routes>
     </div>
+
   );
 }
 
