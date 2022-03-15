@@ -3,15 +3,11 @@ import { Form, Input, Button, Space } from 'antd';
 import articleService from '../services/articles';
 
 const CreateArticleForm = (props) => {
-	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
-
 	const handleCreateArticle = async (tupleObj) => {
 		try {
+			console.log('tupleObj', tupleObj)
 			let retObj = await articleService.createArticle(tupleObj);
 			console.log('retObj', retObj)
-			setTitle('')
-			setContent('')
 		}
 		catch (err) {
 			console.log('create article failed:', err);
@@ -42,12 +38,10 @@ const CreateArticleForm = (props) => {
 							message: 'Please input your title!',
 						},
 					]}
-					value={title}
-					onChange={({ target }) => setTitle(target.value)}
+
 				>
 					<Input
-
-					// showCount
+						type="text" id={"title"}
 					/>
 				</Form.Item>
 
@@ -62,10 +56,8 @@ const CreateArticleForm = (props) => {
 					]}
 				>
 					<Input.TextArea
+						type="text" id={"content"}
 						autoSize={{ minRows: 10 }}
-						value={content}
-						onChange={({ target }) => setContent(target.value)}
-					// showCount
 					/>
 				</Form.Item>
 

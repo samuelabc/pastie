@@ -3,8 +3,8 @@ const baseUrl = '/article'
 
 let globalConfig = {
     headers: {
-       'Content-Type': 'application/x-www-form-urlencoded',
-    } 
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
 }
 
 async function getToken() {
@@ -17,10 +17,9 @@ const getArticle = async (tupleObj) => {
     const config = {
         ...globalConfig,
         headers: { Authorization: token },
-        data: tupleObj
     }
     console.log('schedules service getSchedule', config)
-    const response = await axios.get(`${baseUrl}`, config)
+    const response = await axios.post(`${baseUrl}/fetch`, tupleObj, config)
     console.log('schedules service getSchedule response', response)
     return response.data
 }
@@ -43,9 +42,9 @@ const listArticle = async (tupleObj) => {
         headers: { Authorization: token },
     }
     // const username = window.localStorage.getItem('username')
-    console.log('tupleObj',tupleObj)
+    console.log('tupleObj', tupleObj)
     const response = await axios.post(`${baseUrl}/list`, tupleObj, config)
-    console.log('response',response)
+    console.log('response', response)
     return response.data
 }
 const editArticle = async (tupleObj) => {

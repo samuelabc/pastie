@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Checkbox, Table, Tag, Space } from 'antd';
 import articleService from '../services/articles';
+import {
+	Link,
+	useSearchParams
+} from "react-router-dom";
 const { Column, ColumnGroup } = Table;
 
 const ListArticlePage = (props) => {
 	const [directory, setDirectory] = useState('');
+  let [searchParams, setSearchParams] = useSearchParams();
 
 	useEffect(() => {
 		handleListArticle({})
@@ -25,6 +30,9 @@ const ListArticlePage = (props) => {
 			title: 'Title',
 			dataIndex: 'title',
 			key: 'title',
+			render: (title, record) => {
+				return <Link to={`/archives/${record.id}`}>{title}</Link>
+			},
 			sorter: {
 				compare: (a, b) => (a.title).localeCompare(b.title),
 			},
@@ -56,7 +64,7 @@ const ListArticlePage = (props) => {
 	function onChange(pagination, filters, sorter, extra) {
 		console.log('params', pagination, filters, sorter, extra);
 	}
-	
+
 	return (
 		<Table columns={columns} dataSource={directory} rowKey="id" onChange={onChange} >
 
