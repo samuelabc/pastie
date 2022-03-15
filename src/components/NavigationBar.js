@@ -9,12 +9,12 @@ import {
 const { SubMenu } = Menu;
 
 const NavigationBar = (props) => {
-	let [current, setCurrent] = useState('home')
+	let [current, setCurrent] = useState('')
 	let navigate = useNavigate();
 
 	const handleClick = e => {
-		console.log(e.Key)
-		setCurrent(e.Key)
+		console.log(e.key)
+		setCurrent(e.key)
 	};
 	return (
 		<Menu

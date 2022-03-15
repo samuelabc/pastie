@@ -20,15 +20,46 @@ const ListArticlePage = (props) => {
 		}
 	}
 
+	const columns = [
+		{
+			title: 'Title',
+			dataIndex: 'title',
+			key: 'title',
+			sorter: {
+				compare: (a, b) => (a.title).localeCompare(b.title),
+			},
+		},
+		{
+			title: 'Created At',
+			dataIndex: 'created_at',
+			render: (created_at) => {
+				let date = new Date(created_at).toLocaleString();
+				return <p>{date}</p>
+			},
+			sorter: {
+				compare: (a, b) => (a.created_at).localeCompare(b.created_at),
+			},
+		},
+		{
+			title: 'Last Modified',
+			dataIndex: 'updated_at',
+			render: (updated_at) => {
+				let date = new Date(updated_at).toLocaleString();
+				return <p>{date}</p>
+			},
+			sorter: {
+				compare: (a, b) => (a.updated_at).localeCompare(b.updated_at),
+			},
+		},
+	];
+
+	function onChange(pagination, filters, sorter, extra) {
+		console.log('params', pagination, filters, sorter, extra);
+	}
+	
 	return (
-		<Table dataSource={directory} rowKey="id"  >
-			<Column title="Title" dataIndex="title" key="title"
-				render={(text) => (
-						<a>{text}</a>
-				)}
-			/>
-			<Column title="Created At" dataIndex="created_at" key="created_at" />
-			<Column title="Last Modified" dataIndex="updated_at" key="updated_at" />
+		<Table columns={columns} dataSource={directory} rowKey="id" onChange={onChange} >
+
 			{/* <Column
 				title="Tags"
 				dataIndex="tags"

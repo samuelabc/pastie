@@ -21,7 +21,7 @@ function App() {
 			<br />
 
       <Routes>
-        <Route path="/" element={<CreateArticleForm />} />
+        <Route path="/" element={<CreateArticleForm />}  />
         <Route path="archives" element={<ListArticlePage />} />
       </Routes>
     </div>
