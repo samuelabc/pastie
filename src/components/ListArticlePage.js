@@ -72,6 +72,7 @@ const ListArticlePage = (props) => {
 			sorter: {
 				compare: (a, b) => (a.updated_at).localeCompare(b.updated_at),
 			},
+			sortOrder: "descending"
 		},
 	];
 
