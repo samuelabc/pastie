@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Space } from 'antd';
+import { Form, Input, Button, Space, BackTop } from 'antd';
 import articleService from '../services/articles';
 
 const CreateArticleForm = (props) => {
+	const [form] = Form.useForm();
+
 	const handleCreateArticle = async (tupleObj) => {
 		try {
 			console.log('tupleObj', tupleObj)
 			let retObj = await articleService.createArticle(tupleObj);
 			console.log('retObj', retObj)
+			form.resetFields()
 		}
 		catch (err) {
 			console.log('create article failed:', err);
@@ -20,7 +23,10 @@ const CreateArticleForm = (props) => {
 
 	return (
 		<div>
+			<BackTop>
+			</BackTop>
 			<Form
+				form={form}
 				name="basic"
 				labelCol={{ span: 2 }}
 				wrapperCol={{ span: 20 }}
