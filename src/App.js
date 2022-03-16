@@ -6,23 +6,27 @@ import CreateArticleForm from './components/CreateArticleForm'
 import ListArticlePage from './components/ListArticlePage'
 import NavigationBar from './components/NavigationBar'
 import ArticlePage from './components/ArticlePage'
+import { Space, Typography } from 'antd'
 
+const { Title } = Typography
 function App() {
   return (
     <div className="App">
-      <Link to="/">
-        <img src={logo} className="logo" alt="logo"
-          width={50}
-          height={50}
-        />
-      </Link>
+      <Space direction="horizontal" align="end">
+        <Link to="/">
+          <img src={logo} className="logo" alt="logo"
+            width={60}
+            height={60}
+          />
+        </Link>
+        <Title>Pastie</Title>
+      </Space>
 
-      <h1>Pastie</h1>
       <NavigationBar />
-			<br />
+      <br />
 
       <Routes>
-        <Route path="/" element={<CreateArticleForm />}  />
+        <Route path="/" element={<CreateArticleForm />} />
         <Route path="archives/:articleID" element={<ArticlePage />} />
         <Route path="archives" element={<ListArticlePage />} />
       </Routes>
