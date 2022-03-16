@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Space } from 'antd';
+import { Form, Input, Button, Space, BackTop, Typography } from 'antd';
 import articleService from '../services/articles';
 import {
 	useParams,
 } from "react-router-dom";
+
+const { Title } = Typography;
 
 const ArticlePage = (props) => {
 	const [article, setArticle] = useState({})
@@ -28,8 +30,14 @@ const ArticlePage = (props) => {
 
 	return (
 		<div>
-			<p>{article.title}</p>
-			<p>{article.content}</p>
+			<BackTop>
+			</BackTop>
+			<Title level={2}>{article.title}</Title>
+			<Input.TextArea
+				type="text" value={article.content}
+				autoSize={{ minRows: 1 }}
+				readOnly
+			/>
 		</div>
 	);
 }
