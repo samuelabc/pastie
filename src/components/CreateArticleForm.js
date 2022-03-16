@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Space, BackTop } from 'antd';
+import { Form, Input, Button, Space, BackTop,message } from 'antd';
 import articleService from '../services/articles';
 
 const CreateArticleForm = (props) => {
@@ -10,16 +10,14 @@ const CreateArticleForm = (props) => {
 			console.log('tupleObj', tupleObj)
 			let retObj = await articleService.createArticle(tupleObj);
 			console.log('retObj', retObj)
+			message.success('Successfully created an article.');
 			form.resetFields()
 		}
 		catch (err) {
+			message.success('Failed to create an article.');
 			console.log('create article failed:', err);
 		}
 	}
-
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
-	};
 
 	return (
 		<div>
@@ -32,7 +30,6 @@ const CreateArticleForm = (props) => {
 				wrapperCol={{ span: 20 }}
 				initialValues={{ remember: true }}
 				onFinish={handleCreateArticle}
-				onFinishFailed={onFinishFailed}
 				autoComplete="off"
 			>
 				<Form.Item
