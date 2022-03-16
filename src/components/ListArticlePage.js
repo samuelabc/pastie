@@ -6,14 +6,28 @@ import {
 	useSearchParams
 } from "react-router-dom";
 const { Column, ColumnGroup } = Table;
+const { Search } = Input;
 
 const ListArticlePage = (props) => {
 	const [directory, setDirectory] = useState('');
-  let [searchParams, setSearchParams] = useSearchParams();
+	const [filteredDirectory, setFilteredDirectory] = useState('');
+	let [searchParams, setSearchParams] = useSearchParams();
+	let [searchString, setSearchString] = useState('')
 
 	useEffect(() => {
 		handleListArticle({})
 	}, [])
+	useEffect(() => {
+		if (searchString === '') {
+			setFilteredDirectory(directory)
+		} else {
+			let filtered_directory = directory.filter((d) => {
+				return d.title.includes(searchString)
+			})
+			setFilteredDirectory(filtered_directory)
+		}
+	}, [searchString, directory])
+
 	const handleListArticle = async (tupleObj) => {
 		try {
 			let retObj = await articleService.listArticle(tupleObj);
@@ -64,11 +78,22 @@ const ListArticlePage = (props) => {
 	function onChange(pagination, filters, sorter, extra) {
 		console.log('params', pagination, filters, sorter, extra);
 	}
+	const onSearch = (e) => {
+		console.log('setSearchString', e.target.value)
+		setSearchString(e.target.value)
+	};
+
 
 	return (
-		<Table columns={columns} dataSource={directory} rowKey="id" onChange={onChange} >
+		<div>
+			<Search placeholder="input search text" onChange={onSearch} enterButton />
+			<br />
+			<Table columns={columns} dataSource={filteredDirectory} rowKey="id" onChange={onChange}
+				pagination={{
+					showQuickJumper: true, showSizeChanger: true
+				}} >
 
-			{/* <Column
+				{/* <Column
 				title="Tags"
 				dataIndex="tags"
 				key="tags"
@@ -82,7 +107,7 @@ const ListArticlePage = (props) => {
 					</>
 				)}
 			/> */}
-			{/* <Column
+				{/* <Column
 				title="Action"
 				key="action"
 				render={(text, record) => (
@@ -92,7 +117,8 @@ const ListArticlePage = (props) => {
 					</Space>
 				)}
 			/> */}
-		</Table>
+			</Table >
+		</div>
 	)
 }
 export default ListArticlePage;
